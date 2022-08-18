@@ -1,7 +1,10 @@
-{
+
+
+export default {
   "expo": {
     "name": "ordenar",
     "slug": "ordenar",
+    "owner": "walgys",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
