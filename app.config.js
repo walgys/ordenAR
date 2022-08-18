@@ -1,4 +1,4 @@
-
+import './.env';
 
 export default {
   "expo": {
