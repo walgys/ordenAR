@@ -25,7 +25,7 @@ export default function Header({title,iconType, navigation}){
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
-        height: parameters.headerHight,
+        height: parameters.headerHeight,
         backgroundColor: colors.buttons,
         alignItems: 'center'
     },

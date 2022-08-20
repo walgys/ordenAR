@@ -62,7 +62,7 @@ export default function SignInScreen({navigation}) {
         
       </View>
       <View style={{marginHorizontal: 20, marginVertical: 5}}>
-            <Button title='Ingresar' buttonStyle={parameters.styledButton} />
+            <Button title='Ingresar' buttonStyle={parameters.styledButton} onPress={()=>navigation.navigate('HomeScreen')} />
         </View>
         <View style={{margin: 20, alignItems: 'center'}}>
             <Text style={{...styles.text1, textDecorationLine:"underline"}}>¿ Olvidó su contraseña ?</Text>
