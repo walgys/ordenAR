@@ -4,8 +4,8 @@ import {Icon, withBadge} from 'react-native-elements'
 import { colors, parameters } from '../global/styles'
 
 
-export default function HomeHeader() {
-    const BadgeIcon = withBadge(0)(Icon);
+export default function HomeHeader(quantity) {
+    const BadgeIcon = withBadge(quantity)(Icon);
   return (
     <View style={styles.header}>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>

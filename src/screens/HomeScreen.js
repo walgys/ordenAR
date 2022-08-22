@@ -8,19 +8,36 @@ import {
   Image,
 } from 'react-native';
 import HomeHeader from '../components/HomeHeader';
-import React, { useState } from 'react';
-import { filterData, products } from '../global/data';
+import React, { useState, useEffect, useContext } from 'react';
+import { filterData, getProducts } from '../global/data';
 import { colors } from '../global/styles';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
+import { CartContext } from '../contexts/ecommerceContext';
+import { actions } from '../reducers/ecommerceReducers';
+
 
 export default function HomeScreen() {
   const [categoryIndex, setCategoryIndex] = useState('0');
+  const { dispatchCart, cart } = useContext(CartContext);
+  const [products, setProducts] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState([])
+  
+  useEffect(() => {
+    getProducts().then(products=>setProducts(products));
+  }, [])
+
+  useEffect(() => {
+    if(products)
+    setFilteredProducts(products.filter(product=>product.categoryId === categoryIndex))
+  }, [categoryIndex, products])
+  
+  
   return (
     <View style={styles.container}>
-      <HomeHeader />
+      <HomeHeader quantity={cart.itemsQuantity}/>
       
-        <View style={{backgroundColor: colors.grey2, padding:10}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Categorías</Text>
+        <View style={{backgroundColor: colors.grey2, padding:5}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Categorías</Text>
         </View>
 
         <View>
@@ -40,7 +57,7 @@ export default function HomeScreen() {
                   }
                 >
                   <Image
-                    style={{ height: 70, width: 70, borderRadius: 35 }}
+                    style={{ height: 60, width: 60, borderRadius: 30 }}
                     source={item.image}
                   />
                   <View>
@@ -50,18 +67,21 @@ export default function HomeScreen() {
               </Pressable>
             )}
           />
-          <View style={{backgroundColor: colors.grey2, padding:10}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Productos</Text>
+          <View style={{backgroundColor: colors.grey2, padding:5}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Productos</Text>
         </View>
         </View>
         <ScrollView style={{paddingHorizontal: 10}}>
         <View>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            data={products.filter(product=>product.categoryId === categoryIndex)}
+            data={filteredProducts}
             keyExtractor={(item) => item.id}
             extraData={categoryIndex}
-            renderItem={({ item, index }) => (
+            renderItem={({ item, index }) => {
+                const foundItem = cart.products.find((product)=>product.productId === item.id);
+                const itemQuantity = foundItem ? foundItem.quantity : 0;
+              return (
               
                 <View
                   style={styles.productCard}
@@ -71,7 +91,7 @@ export default function HomeScreen() {
                   </View>
                   <Image
                     style={{height: '100%', width: '100%', objectFit: 'contain'}}
-                    source={item.image}
+                    source={{uri: item.image}}
                   />
                   <View style={styles.productCommands}>
 
@@ -83,13 +103,17 @@ export default function HomeScreen() {
                     </View>
 
                     <View>
-                      <Text>{0}</Text>
+                      <Text>{itemQuantity}</Text>
                     </View>
 
                     <View>
                     <Icon 
                       type='material-community'
                       name='plus'
+                      onPress={()=>dispatchCart({
+                        type: actions.ADD_TO_CART,
+                        payload: { productId: item.id, quantity: 1, price: item.price },
+                      })}
                     />
                     </View>
                     
@@ -99,9 +123,13 @@ export default function HomeScreen() {
                 </View>
               
             )}
+          }
           />
         </View>
       </ScrollView>
+      <View>
+
+      </View>
     </View>
   );
 }
@@ -111,30 +139,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   smallCard: {
-    borderRadius: 30,
+    borderRadius: 20,
     backgroundColor: colors.grey4,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    width: 110,
+    width: 90,
     margin: 10,
-    height: 110,
+    height: 100,
   },
   smallCardSelected: {
-    borderRadius: 30,
+    borderRadius: 20,
     backgroundColor: colors.buttons,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    width: 110,
+    width: 90,
     margin: 10,
-    height: 110,
+    height: 100,
   },
   smallCardText:{
+    fontSize: 12,
     color: colors.cardBackground,
     fontWeight: 'bold'
   },
   smallCardSelectedText:{
+    fontSize: 12,
     color: colors.grey1,
     fontWeight: 'bold'
   },

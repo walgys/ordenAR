@@ -21,9 +21,11 @@ export default {
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.walgys.ordenAR"
     },
     "android": {
+      "package": "com.walgys.ordenAR",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -38,7 +40,9 @@ export default {
       projectId: process.env.PROJECT_ID,
       storageBucket: process.env.STORAGE_BUCKET,
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
-      appId: process.env.APP_ID
+      appId: process.env.APP_ID,
+      webClientId: process.env.WEB_CLIENT_ID,
+      androidClientId: process.env.ANDROID_CLIENT_ID
     }
   }
 }
