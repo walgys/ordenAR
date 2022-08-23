@@ -17,6 +17,7 @@ import { actions } from '../../reducers/authReducers';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import Constants from 'expo-constants';
+import { updateCreateAccount } from '../../global/data';
 
 export default function SignInScreen({ navigation }) {
   const [hiddenPassword, setHiddenPassword] = useState(true);
@@ -35,9 +36,15 @@ export default function SignInScreen({ navigation }) {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential);
-      dispatchSignedIn({
-        type: actions.UPDATE_SIGN_IN,
-        payload: { userToken: 'signed-in' },
+      auth.onAuthStateChanged((user) => {
+        console.log('signin')
+        if(user){
+          updateCreateAccount(user, {userId: user.uid, name: user.displayName, email: user.email, photoUrl: user.photoUrl});
+          dispatchSignedIn({
+            type: actions.UPDATE_SIGN_IN,
+            payload: { userToken: 'signed-in' },
+          });
+        }
       });
     }
   }, [response]);
@@ -47,6 +54,7 @@ export default function SignInScreen({ navigation }) {
     try {
       const user = await signInWithEmailAndPassword(auth, userName, password);
       if (user) {
+        updateCreateAccount(user, {userId: user.uid});
         dispatchSignedIn({
           type: actions.UPDATE_SIGN_IN,
           payload: { userToken: 'signed-in' },

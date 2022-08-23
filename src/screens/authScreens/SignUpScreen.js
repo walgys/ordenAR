@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Header from '../../components/Header';
 import { colors, parameters } from '../../global/styles';
@@ -8,8 +8,11 @@ import { Button, Icon } from 'react-native-elements';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/fb';
 import { Alert } from 'react-native';
+import { updateCreateAccount } from '../../global/data';
+import { SignInContext } from '../../contexts/authContext';
 
 export default function SignUpScreen({ navigation }) {
+  const { dispatchSignedIn } = useContext(SignInContext);
   const initualValues = {
     phone: '',
     name: '',
@@ -17,10 +20,15 @@ export default function SignUpScreen({ navigation }) {
     password: '',
   };
   const signUp = async (values) => {
-    const {email, password  } = values;
+    const {email, password, phone, name} = values;
     try {
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userCredentials.user.uid);
+      await createUserWithEmailAndPassword(auth, email, password);
+      auth.onAuthStateChanged((user) => {
+        if(user){
+          console.log(JSON.stringify({userId: user.uid, email:email, name:name, phone: phone}))
+          updateCreateAccount(user, {userId: user.uid, email:email, name:name, phone: phone});
+        }
+      });
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         Alert.alert('El email ya fué registrado');

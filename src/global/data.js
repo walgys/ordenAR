@@ -1,5 +1,5 @@
 import { database } from '../config/fb';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, query, where, onSnapshot, updateDoc, doc, addDoc } from 'firebase/firestore';
 
 export const filterData = [
   { name: 'Café', image: require('../assets/coffe_200.png'), id: '0' },
@@ -34,54 +34,18 @@ export const getProducts = async () => {
   return products;
 };
 
-export const products = [
-  {
-    name: 'Tostado de jamón y queso',
-    image: require('../assets/sandwichs/jamon_queso_500x350.png'),
-    categoryId: '1',
-    id: '0',
-    price: 1.25,
-  },
-  {
-    name: 'Braseado éxquisito',
-    image: require('../assets/sandwichs/braseado_500x350.png'),
-    categoryId: '1',
-    id: '1',
-    price: 1.25,
-  },
-  {
-    name: 'Cubano rico',
-    image: require('../assets/sandwichs/cubano_500x350.png'),
-    categoryId: '1',
-    id: '2',
-    price: 1.25,
-  },
-  {
-    name: 'Único con milanesa',
-    image: require('../assets/sandwichs/milanesa_500x350.png'),
-    categoryId: '1',
-    id: '3',
-    price: 1.25,
-  },
-  {
-    name: 'Supremo con pernil',
-    image: require('../assets/sandwichs/pernil_500x350.png'),
-    categoryId: '1',
-    id: '4',
-    price: 1.25,
-  },
-  {
-    name: 'Fresco con pepino y apio',
-    image: require('../assets/sandwichs/pepino_apio_500x350.png'),
-    categoryId: '1',
-    id: '5',
-    price: 1.25,
-  },
-  {
-    name: 'Ligero Veggie',
-    image: require('../assets/sandwichs/veggie_500x350.png'),
-    categoryId: '1',
-    id: '6',
-    price: 1.25,
-  },
-];
+export const updateCreateAccount = async (user,accountInfo) =>{
+  const usersRef = collection(database,'users');
+  const q = query(usersRef,where('userId','==', user.uid));
+  let userAccount;
+  onSnapshot(q,(snapshot)=>{
+    console.log(JSON.stringify({id: snapshot.docs[0].id, ...snapshot.docs[0].data()}))
+     userAccount = snapshot.docs.length > 0 ? {id: snapshot.docs[0].id, ...snapshot.docs[0].data()} : null;
+  })
+  if(userAccount){
+    const userInfoRef = doc(database,'users', userAccount.id)
+    await updateDoc(userInfoRef,accountInfo);
+  } else {
+    await addDoc(usersRef, accountInfo);
+  }
+}

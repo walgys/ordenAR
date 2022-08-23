@@ -11,7 +11,7 @@ export default function SignInWelcomeScreen({ navigation }) {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log(JSON.stringify(user));
+      console.log(JSON.stringify(user))
       if (user) {
         dispatchSignedIn({
           type: actions.UPDATE_SIGN_IN,
