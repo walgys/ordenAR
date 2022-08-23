@@ -1,26 +1,20 @@
 import React,{useContext} from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-elements'
-import { signOut} from 'firebase/auth';
+import { Button } from 'react-native-elements';
 import { auth } from '../config/fb';
 import { colors } from '../global/styles';
-import { SignInContext } from '../contexts/authContext';
-import { actions } from '../reducers/authReducers';
+import HomeHeader from '../components/HomeHeader'
+import { CartContext } from '../contexts/ecommerceContext';
 
-export default function AccountScreen() {
-    const {dispatchSignedIn} = useContext(SignInContext);
+
+export default function AccountScreen({navigation}) {
+  const { cart } = useContext(CartContext);
   return (
     <View>
-        <Button 
-                title = 'Desloguearse'
-                buttonStyle = {styles.createButton}
-                titleStyle = {styles.createButtonTitle}
-                onPress={()=>{
-                    signOut(auth);
-                    dispatchSignedIn({type: actions.UPDATE_SIGN_IN, payload: {userToken: null}});
-                }
-                }
-            />
+      <HomeHeader quantity={cart.totalItems} navigation={navigation}/>
+      <View>
+      </View>
+        
     </View>
   )
 }

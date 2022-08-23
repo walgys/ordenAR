@@ -16,7 +16,7 @@ import { CartContext } from '../contexts/ecommerceContext';
 import { actions } from '../reducers/ecommerceReducers';
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const [categoryIndex, setCategoryIndex] = useState('0');
   const { dispatchCart, cart } = useContext(CartContext);
   const [products, setProducts] = useState(null);
@@ -34,7 +34,7 @@ export default function HomeScreen() {
   
   return (
     <View style={styles.container}>
-      <HomeHeader quantity={cart.itemsQuantity}/>
+      <HomeHeader quantity={cart.totalItems} navigation={navigation}/>
       
         <View style={{backgroundColor: colors.grey2, padding:5}}>
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>Categorías</Text>
@@ -99,6 +99,10 @@ export default function HomeScreen() {
                     <Icon 
                       type='material-community'
                       name='minus'
+                      onPress={()=>dispatchCart({
+                        type: actions.REMOVE_FROM_CART,
+                        payload: { productId: item.id, quantity: 1 },
+                      })}
                     />
                     </View>
 
@@ -112,7 +116,7 @@ export default function HomeScreen() {
                       name='plus'
                       onPress={()=>dispatchCart({
                         type: actions.ADD_TO_CART,
-                        payload: { productId: item.id, quantity: 1, price: item.price },
+                        payload: { productId: item.id, quantity: 1, name: item.name, price: item.price },
                       })}
                     />
                     </View>

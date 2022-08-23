@@ -11,7 +11,7 @@ export const colors = {
 };
 
 export const parameters = {
-  headerHeight: 40,
+  headerHeight: 60,
   styledButton: {
     backgroundColor: '#ff8c52',
     alignContent: 'center',
