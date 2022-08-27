@@ -1,5 +1,4 @@
 import {
-  ScrollView,
   StyleSheet,
   View,
   Text,
@@ -71,10 +70,10 @@ export default function HomeScreen({navigation}) {
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>Productos</Text>
         </View>
         </View>
-        <ScrollView style={{paddingHorizontal: 10}}>
         <View>
           <FlatList
             showsHorizontalScrollIndicator={false}
+            style={{paddingHorizontal: 10}}
             data={filteredProducts}
             keyExtractor={(item) => item.id}
             extraData={categoryIndex}
@@ -130,7 +129,6 @@ export default function HomeScreen({navigation}) {
           }
           />
         </View>
-      </ScrollView>
       <View>
 
       </View>

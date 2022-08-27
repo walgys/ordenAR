@@ -9,6 +9,7 @@ export default {
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme":"ordenar",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,14 +23,16 @@ export default {
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.walgys.ordenAR"
+      "bundleIdentifier": "com.walgys.ordenar"
     },
+   
     "android": {
-      "package": "com.walgys.ordenAR",
+      "package": "com.walgys.ordenar",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "googleServicesFile": "./google-services.json",
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -42,7 +45,10 @@ export default {
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
       appId: process.env.APP_ID,
       webClientId: process.env.WEB_CLIENT_ID,
-      androidClientId: process.env.ANDROID_CLIENT_ID
+      androidClientId: process.env.ANDROID_CLIENT_ID,
+      "eas": {
+        "projectId": "49d5efec-18ac-45c2-b082-6369403686f2"
+      }
     }
   }
 }

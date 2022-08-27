@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Text, StyleSheet, View, StatusBar } from 'react-native';
+import {  StyleSheet, View, StatusBar } from 'react-native';
 import { SignInContextProvider } from './src/contexts/authContext';
 import { CartContextProvider } from './src/contexts/ecommerceContext';
 import { colors } from './src/global/styles';
 import RootNavigator from './src/navigation/RootNavigator';
-
+import Constants from "expo-constants";
 function App() {
+  Constants.manifest.originalFullName = "@walgys/ordenar";
   return (
     <SignInContextProvider>
       <CartContextProvider>

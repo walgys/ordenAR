@@ -12,10 +12,15 @@ const ClientTabs = createBottomTabNavigator();
 export default function ClientNavigator() {
   return (
     <ClientTabs.Navigator
-      tabBarOptions={{
-        activeTintColor: colors.buttons,
-        headerShown: false,
-      }}
+    screenOptions={{
+      "tabBarActiveTintColor": "#ff8c52",
+      "tabBarStyle": [
+        {
+          "display": "flex"
+        },
+        null
+      ]
+    }}
     >
       <ClientTabs.Screen
         name="HomeScreen"
@@ -38,19 +43,7 @@ export default function ClientNavigator() {
             <Icon name="view-list" type="material" size={size} color={color} />
           ),
         }}
-      />
-
-      <ClientTabs.Screen
-        name="AccountScreen"
-        component={AccountScreen}
-        options={{
-          headerShown: false,
-          tabBarLabel: 'Mi Cuenta',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="person" type="material" size={size} color={color} />
-          ),
-        }}
-      />
+      />   
       <ClientTabs.Screen
         name="CheckoutScreen"
         component={CheckoutScreen}

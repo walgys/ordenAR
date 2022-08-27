@@ -1,7 +1,5 @@
 import React,{useContext} from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-elements';
-import { auth } from '../config/fb';
 import { colors } from '../global/styles';
 import HomeHeader from '../components/HomeHeader'
 import { CartContext } from '../contexts/ecommerceContext';

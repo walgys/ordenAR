@@ -1,31 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, TextInput } from 'react-native';
-import { colors, parameters, title } from '../../global/styles';
-import { Icon, Button, Divider, SocialIcon } from 'react-native-elements';
-import { SignInContext } from '../../contexts/authContext';
-import { actions } from '../../reducers/authReducers';
-import { auth } from '../../config/fb';
+import React from 'react';
+import { View, Text, StyleSheet} from 'react-native';
+import { colors, parameters} from '../../global/styles';
+import { Button} from 'react-native-elements';
 
 export default function SignInWelcomeScreen({ navigation }) {
-  const { dispatchSignedIn } = useContext(SignInContext);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      console.log(JSON.stringify(user))
-      if (user) {
-        dispatchSignedIn({
-          type: actions.UPDATE_SIGN_IN,
-          payload: { userToken: 'signed-in' },
-        });
-      } else {
-        dispatchSignedIn({
-          type: actions.UPDATE_SIGN_IN,
-          payload: { userToken: null },
-        });
-      }
-    });
-  }, []);
-
   return (
     <View style={{ flex: 1 }}>
       <View

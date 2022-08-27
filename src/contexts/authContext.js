@@ -6,6 +6,7 @@ export const SignInContext = createContext();
 export const SignInContextProvider = (props) => {
     const [signedIn, dispatchSignedIn] = useReducer(SignInReducer, {
         userToken: null,
+        user: null
     })
     return (
         <SignInContext.Provider value={{signedIn, dispatchSignedIn}} >

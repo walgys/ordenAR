@@ -2,12 +2,12 @@ import {initialState} from '../contexts/ecommerceContext'
 
 export const actions = {
   ADD_TO_CART: 'ADD_TO_CART',
-  REMOVE_FROM_CART: 'REMOVE_FROM_CART'
+  REMOVE_FROM_CART: 'REMOVE_FROM_CART',
+  EMPTY_CART: 'EMPTY_CART'
 };
 
 export const CartReducer = (state, action) => {
   const { products } = state;
-  
   switch (action.type) {
     case 'ADD_TO_CART':  
       const foundProductToAdd = products.find(

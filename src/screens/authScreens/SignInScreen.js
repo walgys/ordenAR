@@ -1,8 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import Header from '../../components/Header';
 import { colors, parameters, title } from '../../global/styles';
-import * as Animatable from 'react-native-animatable';
 import { Icon, Button, Divider, SocialIcon } from 'react-native-elements';
 import { Formik } from 'formik';
 import { auth } from '../../config/fb';
@@ -27,25 +26,17 @@ export default function SignInScreen({ navigation }) {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: Constants.manifest.extra.webClientId,
     androidClientId: Constants.manifest.extra.androidClientId,
+    expoClientId: Constants.manifest.extra.web,
   });
 
   WebBrowser.maybeCompleteAuthSession();
 
   useEffect(() => {
+    alert(JSON.stringify(response))
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential);
-      auth.onAuthStateChanged((user) => {
-        console.log('signin')
-        if(user){
-          updateCreateAccount(user, {userId: user.uid, name: user.displayName, email: user.email, photoUrl: user.photoUrl});
-          dispatchSignedIn({
-            type: actions.UPDATE_SIGN_IN,
-            payload: { userToken: 'signed-in' },
-          });
-        }
-      });
     }
   }, [response]);
 

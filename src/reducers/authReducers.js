@@ -5,7 +5,8 @@ export const actions = {
 export const SignInReducer = (state, action) =>{
     switch(action.type){
         case 'UPDATE_SIGN_IN':
-            return {userToken: action.payload.userToken}
+            console.log('sign in')
+            return {userToken: action.payload.userToken, user: action.payload.user}
         default:
             return state;
     }
