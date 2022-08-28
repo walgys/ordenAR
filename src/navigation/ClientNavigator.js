@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import { Icon } from 'react-native-elements';
@@ -6,6 +6,9 @@ import { colors } from '../global/styles';
 import AccountScreen from '../screens/AccountScreen';
 import OrdersScreen from '../screens/OrdersScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
+import { CartContext } from '../contexts/ecommerceContext';
+import { actions } from '../reducers/ordersReducer';
+import { SignInContext } from '../contexts/authContext';
 
 const ClientTabs = createBottomTabNavigator();
 
@@ -35,7 +38,7 @@ export default function ClientNavigator() {
       />
       <ClientTabs.Screen
         name="OrdersScreen"
-        component={OrdersScreen}
+        component={AccountScreen}
         options={{
           headerShown: false,
           tabBarLabel: 'Pedidos',

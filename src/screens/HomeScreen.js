@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import HomeHeader from '../components/HomeHeader';
 import React, { useState, useEffect, useContext } from 'react';
-import { filterData, getProducts } from '../global/data';
+import { filterData, getProducts, getOrders } from '../global/data';
 import { colors } from '../global/styles';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { CartContext } from '../contexts/ecommerceContext';
@@ -19,10 +19,13 @@ export default function HomeScreen({navigation}) {
   const [categoryIndex, setCategoryIndex] = useState('0');
   const { dispatchCart, cart } = useContext(CartContext);
   const [products, setProducts] = useState(null);
+  const [orders, setOrders] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
   
   useEffect(() => {
-    getProducts().then(products=>setProducts(products));
+    getOrders().then(orders=>setOrders(orders))
+   //r getProducts().then(products=>setProducts(products));
+   
   }, [])
 
   useEffect(() => {
@@ -38,7 +41,7 @@ export default function HomeScreen({navigation}) {
         <View style={{backgroundColor: colors.grey2, padding:5}}>
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>Categorías</Text>
         </View>
-
+        <Text>{JSON.stringify(orders)}</Text>
         <View>
           <FlatList
             horizontal={true}

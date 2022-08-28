@@ -1,16 +1,29 @@
-import React,{useContext} from 'react'
-import { StyleSheet, View } from 'react-native'
+import React,{useContext, useEffect, useState} from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { colors } from '../global/styles';
 import HomeHeader from '../components/HomeHeader'
 import { CartContext } from '../contexts/ecommerceContext';
+import { getOrders } from '../global/data';
 
 
 export default function AccountScreen({navigation}) {
   const { cart } = useContext(CartContext);
+  const [orders, setOrders] = useState([]);
+  useEffect(() => {
+    alert('ask orders');
+    getOrders().then(
+      orders => {
+        alert('return orders');
+        setOrders(orders)
+      }
+    );
+  }, []);
+
   return (
     <View>
       <HomeHeader quantity={cart.totalItems} navigation={navigation}/>
       <View>
+        <Text>{JSON.stringify(orders)}</Text>
       </View>
         
     </View>

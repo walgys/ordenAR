@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View} from 'react-native';
+import { View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import HomeHeader from '../components/HomeHeader';
@@ -7,12 +7,13 @@ import { SignInContext } from '../contexts/authContext';
 import { CartContext } from '../contexts/ecommerceContext';
 import { getOrders } from '../global/data';
 import moment from 'moment';
+import { locales } from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
 const OrderComponent = ({order, index}) => {
 const [expanded, setExpanded] = useState(false)
-
+const handlePress = () => setExpanded(!expanded);
   return (
   <ListItem.Accordion
   key={'accordion-'+index+order.id}
@@ -59,9 +60,10 @@ export default function OrdersScreen({ navigation }) {
  
 
   useEffect(() => {
-
-    getOrders(signedIn.user).then(
+    alert('ask orders');
+    getOrders().then(
       orders => {
+        alert('return orders');
         setOrders(orders)
       }
     );
@@ -74,6 +76,7 @@ export default function OrdersScreen({ navigation }) {
         {orders.map((order, index)=>(
         <OrderComponent key={'container-'+order.id} index={index} order={order} />
       ))
+
       }
       </ScrollView>
     </View>

@@ -45,7 +45,7 @@ export default function SignInScreen({ navigation }) {
     try {
       const user = await signInWithEmailAndPassword(auth, userName, password);
       if (user) {
-        updateCreateAccount(user, {userId: user.uid});
+        //updateCreateAccount(user, {userId: user?.uid});
         dispatchSignedIn({
           type: actions.UPDATE_SIGN_IN,
           payload: { userToken: 'signed-in' },
